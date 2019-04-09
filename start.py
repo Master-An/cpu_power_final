@@ -46,3 +46,4 @@ if not os.path.exists(TestSuiteConfig.ReportsPath):
 ConfigureLogger(logsFilePath = os.path.join(TestSuiteConfig.ReportsPath), logFileName = 'logs.log', errorFileName = 'error.log')
 test_db = test.CPUPOWER_QRD_KRATO_DB()
 test_db.target_case_test_all()
+# add some thing for test
