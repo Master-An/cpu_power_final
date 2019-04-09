@@ -1,0 +1,13 @@
+Applicable to python3 environment
+excute:  py -3 start.py
+
+Preexecution attention start.py:
+
+1.attention ID IP type, example:
+TestSuiteConfig.HardwareType = "Kratos"
+TestSuiteConfig.KratosID = "311"
+TestSuiteConfig.KratosIpAddress = "10.239.121.37"
+TestSuiteConfig.KratosPcName = "KRATOS-311"
+
+3.test two times, example:
+TestCaseConfig.Interation = 2

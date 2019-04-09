@@ -1,0 +1,30 @@
+Push the ctlogger:
+adb push ctlogger /data/local/tmp/
+adb push ctlogger.conf /data/local/tmp/
+adb shell chmod 777 /data/local/tmp/ctlogger
+adb shell chmod 777 /data/local/tmp/ctlogger.conf
+
+
+Run the binary to collect tsens data and run the dhrystone:
+adb shell 
+/data/local/tmp/ctlogger -c /data/local/tmp/ctlogger.conf -o /data/local/tmp/tsens_logger.csv &
+
+Notice: script wil run until you kill the thread. Suggest to reboot device when finish 1 round test.
+
+usage: /data/ctlogger [OPTIONS]
+        [OPTIONAL] -s, --sampling <sampling time in ms>   default is 1000ms
+        [OPTIONAL] -c, --config <logger config file path> default is /data/ctlogger.conf
+        [OPTIONAL] -o, --out <output file path> default is /data/tsens_logger.csv
+        [OPTIONAL] -d, --duration <total duration in minutes> default is 24*60
+        [OPTIONAL] -h, --help    prints usage
+
+
+View the data:
+adb shell cat /data/local/tmp/tsens_logger.csv
+
+Pull the logs after the test:
+adb pull /data/local/tmp/tsens_logger.csv
+
+Remove the tsens log:
+adb shell rm /data/local/tmp/tsens_logger.csv
+

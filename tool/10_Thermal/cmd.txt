@@ -1,0 +1,163 @@
+talos:/ # cd sys/class/thermal/thermal_zone61
+talos:/sys/class/thermal/thermal_zone61 # cat type
+quiet-therm
+talos:/sys/class/thermal/thermal_zone61 # cat temp
+38177
+
+
+talos:/sys/class/thermal/thermal_zone62 # cat type
+quiet-therm-step
+talos:/sys/class/thermal/thermal_zone62 # cat mode
+enabled
+talos:/sys/class/thermal/thermal_zone62 # cat temp
+36979
+
+
+
+1.adb shell ./data/local/tmp/powerall.bash
+select 11
+
+2.Push the ctlogger:
+adb push ctlogger /data/local/tmp/
+adb push ctlogger.conf /data/local/tmp/
+adb shell chmod 777 /data/local/tmp/ctlogger
+adb shell chmod 777 /data/local/tmp/ctlogger.conf
+adb shell chmod 777 /data/local/tmp/thermal-engine-FC.conf
+pause
+
+3.offscreen catch tsens_logger before start game test 
+
+adb shell 
+/data/local/tmp/ctlogger -c /data/local/tmp/ctlogger.conf -o /data/local/tmp/tsens_logger.csv &
+
+
+
+/data/local/tmp/Cosmo_Full_Charge_scope.sh -c /data/local/tmp/Cosmo_Full_Charge_scope.sh -o /data/local/tmp/tsens_logger1.csv &
+
+4. adb pull /data/local/tmp/tsens_logger.csv
+adb pull /data/local/tmp/powerall data\
+
+5.ats
+
+How to run scripts via ats:
+Push ats  into /data/local/tmp/& install AutoTest.apk into device. (key_files\ATS_Install.bat)
+
+\\dine\QCT_PTT\08_Automation\Shelton\PTAS\Latest\Engine\Resources\Apps\ATS
+
+Push scripts(*.ats) into device to /data/local/tmp/scripts/, 
+and make sure the scripts has execution permission (sample\push_scripts.bat)
+
+Run the scripts via cmd  “adb shell /data/local/tmp/ats  <scripts>”
+
+Eg. adb shell /data/local/tmp/ats Play_FruitNinja.ats
+Help for ats
+adb shell 
+cd /data/local/tmp/
+ats -h
+
+
+5.check log
+
+Batt_Current(uA) and quiet-therm (discharging >0)
+
+
+logcat > /data/logcat.txt &
+
+ats
+
+install AutoTest.apk
+Push ats  into /data/local/tmp
+chmod 777 /data/local/tmp/ats
+
+
+
+adb pull  /system/etc/thermal-engine
+/vendor/etc/thermal-engine.conf
+
+C:\Users\c_xiazh\Desktop\1225>adb shell
+sm6150:/ # thermal-engine -o
+# SENSOR : ALIAS
+
+debug
+#Conf file: /vendor/etc/thermal-engine.conf
+
+[CAMERA_SKIN_EXIT_MITIGATION]
+algo_type monitor
+sampling 10000
+sensor quiet-therm-adc
+thresholds 50000
+thresholds_clr 47000
+actions camera
+action_info 10
+
+[HVX_MONITOR]
+algo_type monitor
+sampling 1000
+
+
+
+[SS-NPU]
+algo_type ss
+sampling 10
+sensor npu-usr
+device npu
+set_point 95000
+set_point_clr 90000
+time_constant 0
+
+[SS-SKIN-GPU]
+algo_type monitor
+sampling 1000
+sensor quiet-therm-adc
+thresholds 48000
+thresholds_clr 44000
+actions gpu
+action_info 650000000
+
+[SS-GPU]
+algo_type ss
+sampling 10
+sensor gpuss-0-usr
+device gpu
+set_point 95000
+set_point_clr 90000
+time_constant 0
+
+
+
+
+
+
+
+
+
+
+X:\05_Test_Resource\Extend_DB\ChinaExtDBAPK_PTAS>adb shell
+talos:/ # /data/local/tmp/ats CiJiZhanChang.ats
+/system/bin/sh: /data/local/tmp/ats: can't execute: Permission denied
+126|talos:/ # cd /data/local/tmp/scripts
+talos:/data/local/tmp/scripts # ats CiJiZhanChang.ats
+/system/bin/sh: ats: can't execute: Permission denied
+126|talos:/data/local/tmp/scripts # chmod 777 /data/local/tmp/scripts
+talos:/data/local/tmp/scripts #  ats CiJiZhanChang.ats
+/system/bin/sh: ats: can't execute: Permission denied
+126|talos:/data/local/tmp/scripts # chmod 777 /data/local/tmp
+talos:/data/local/tmp/scripts # ats CiJiZhanChang.ats
+/system/bin/sh: ats: can't execute: Permission denied
+126|talos:/data/local/tmp/scripts # cd /data/local/tmp
+talos:/data/local/tmp # chmod 777 /data/local/tmp
+talos:/data/local/tmp #  ats CiJiZhanChang.ats
+/system/bin/sh: ats: can't execute: Permission denied
+126|talos:/data/local/tmp # ls
+ats           cpustatus ctlogger.conf idlestat powerall.bash scripts
+cplogger.conf ctlogger  fps.txt       powerall powertop
+talos:/data/local/tmp # chmod /data/local/tmp/ats
+chmod: Need 2 arguments (see "chmod --help")
+1|talos:/data/local/tmp # chmod 777 /data/local/tmp/ats
+talos:/data/local/tmp #  ats CiJiZhanChang.ats
+PID: 8099
+Automation Started
+
+
+
+

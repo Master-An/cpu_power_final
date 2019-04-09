@@ -1,0 +1,47 @@
+CTLOGGER is a tool to help in Thermal Analysis. 
+Installation:
+ #adb push ctlogger /data/
+ #adb push ctlogger.conf /data/
+ #adb shell "chmod 0777 /data/ctlogger"
+You can also use the given installation script for your chipset( eg: #install_sdm670  or install_sdm660)
+
+Usage:
+usage:   /data/local/tmp/ctlogger -c /data/local/tmp/ctlogger.conf -o /data/local/tmp/tsens_logger.csv &
+
+Pull the logs after the test:
+adb pull /data/local/tmp/tsens_logger.csv
+adb pull /sdcard/tsens_logger.csv
+
+Remove the tsens log:
+adb shell rm /data/local/tmp/tsens_logger.csv
+adb shell rm /sdcard/tsens_logger.csv
+
+
+                                [OPTIONAL] -s, --sampling <sampling time in ms>   default is 1000ms
+                                [OPTIONAL] -c, --config <logger config file path> default is /data/ctlogger.conf
+                                [OPTIONAL] -o, --out <output file path> default is /data/tsens_logger.csv
+                                [OPTIONAL] -d, --duration <total duration in minutes> default is 24*60
+                                [OPTIONAL] -h, --help    prints usage												
+The Output file of the ctlogger provides the following information by default without a ctlogger.conf file
+- Timestamp (in seconds)
+- Current Frequencies of all CPUs in MHz
+- Temperatures present in all the Thermal zone nodes
+- State of the cooling/mitigation nodes
+- Every CPU Utilization details
+- Online status of each cpu
+
+The Configuration file (ctlogger.conf) is used to add information about additional nodes you want to capture in the ctlogger.
+
+The format to add a regular sysfs node is:
+Header:location
+example:
+Batt_Voltage:/sys/class/power_supply/battery/voltage_now
+
+The format to add a VOLTAGE node/SPMI node is:
+Header:location;address
+example:
+VOLTAGE_CX:/sys/kernel/debug/regmap/spmi0-03;0x1a42
+
+The present ctlogger_sdm670.conf and ctlogger_sdm660.conf contains an overview of sysfs nodes which are useful for thermal analysis. 
+Some of the sysfs nodes changed from sdm660 to sdm670 are also updated.
+
